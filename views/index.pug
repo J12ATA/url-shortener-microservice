@@ -1,0 +1,34 @@
+doctype html
+html(lang="en")
+  head
+    title Url Shortener Microservice
+    link(href='https://fonts.googleapis.com/css?family=Roboto', rel='stylesheet')
+    link(rel='stylesheet', href='style.css')
+  body
+    h1 URL Shortener Microservice <br><br>
+
+    h2 User Story
+    | &nbsp;&nbsp;&nbsp;&nbsp; 1. I can POST a URL to [project_url]/api/shorturl/new and I will receive a shortened URL in the JSON response.<br> 
+    | &nbsp;&nbsp;&nbsp;&nbsp; Example : &nbsp;
+    code {"original_url":"www.google.com","short_url":1}<br><br>
+    | &nbsp;&nbsp;&nbsp;&nbsp; 2. If I pass an invalid URL that doesn't follow the &nbsp;
+    code http(s)://www.example.com(/more/routes)
+    | format, <br> &nbsp;&nbsp;&nbsp;&nbsp; the JSON response will contain an error like 
+    code {"error":"invalid URL"}<br><br>
+    | &nbsp;&nbsp;&nbsp;&nbsp; 3. When I visit the shortened URL, it will redirect me to my original link
+    
+    h2 Short URL Creation
+    | &nbsp;&nbsp;&nbsp;&nbsp; example: &nbsp;
+    code POST [project_url]/api/shorturl/new - https://www.google.com
+    
+    form(action='api/shorturl/new', method='POST', target='_blank')
+      label(for='url_input') URL to be shortened
+      input(id='url_input', type='text', name='url', value='https://www.freecodecamp.com')
+      button POST URL
+    
+    h2 Example Usage
+    
+    a(href='api/shorturl/a64bf7', target='_blank') [project_url]/api/shorturl/a64bf7
+    
+    h2 Will Redirect To
+    | &nbsp;&nbsp;&nbsp;&nbsp; https://forum.freecodecamp.com
