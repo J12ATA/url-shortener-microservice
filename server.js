@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const mongooseConfig = require('./config/mongoose_config');
 const urlValidator = require('./regex/urlValidator');
 const Url = require('./models/Url').Url
-const cors = require('cors');
 const crypto = require('crypto');
+const cors = require('cors');
 const app = express(); 
 
 app.use(bodyParser.urlencoded({ extended: false }));
