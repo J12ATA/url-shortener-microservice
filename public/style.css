@@ -1,0 +1,46 @@
+/****** Main Styling ******/
+
+body {
+	font-family: 'Roboto', sans-serif;
+	font-size: 16px;
+	color: #222;
+	line-height: 1.4em;
+}
+
+code {
+  font-family: monospace;
+  padding: 2px;
+  color: black;
+  background-color: #FaFaFa;
+}
+
+a {
+	color: #2574A9;
+  padding-left: 22px;
+}
+
+form {
+  border: solid 1px black;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 10px;
+  width: 475px;
+}
+
+label, input[type=text] {
+  margin-right: 10px;
+}
+
+input {
+  padding: 6px;
+}
+
+input[type=text] {
+  width: 220px;
+  text-align: center;
+}
+
+button, input[type=text] {
+  font-weight: bold;
+}
