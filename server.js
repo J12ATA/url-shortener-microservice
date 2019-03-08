@@ -43,6 +43,7 @@ app.post('/api/shorturl/new', (req, res, next) => {
   const shortUrl = new Url({ url: userProvidedUrl, _id: randomId });
   if (!userProvidedUrl.match(urlValidator)) return res.json({error: 'Invalid URL'});
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
+    if (err) next(err);
     if (doc) return res.status(201).json({url: doc.url, shortcut: doc._id}); // output doc
     shortUrl.save((err, doc) => { // create new doc
       if (err) next(err);
