@@ -38,24 +38,21 @@ app.get('/api/shorturl/:_id', (req, res, next) => {
 });
 
 app.post('/api/shorturl/new', (req, res, next) => {
-  const userProvidedUrl = req.body.url;
+  const userProvidedUrl = req.body.url.toLowerCase();
   const randomId = crypto.randomBytes(3).toString('hex'); // random string
   const shortUrl = new Url({ url: userProvidedUrl, _id: randomId });
-  if (userProvidedUrl.match(urlValidator)) { // user input vs validator
-    Url.findOne({ url: userProvidedUrl.toLowerCase() }, (err, doc) => { // does url exist
-      if (!doc) { // if no matching doc exists then
-        shortUrl.save((err, doc) => { // create new doc
-          if (err) next(err);
-          res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
-        });
-      } else { // if doc exists in our database
+  if (!userProvidedUrl.match(urlValidator)) return res.json({error: 'Invalid URL'});
+  Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
+    if (!doc) { // if no matching doc exists then
+      shortUrl.save((err, doc) => { // create new doc
         if (err) next(err);
-        res.status(201).json({url: doc.url, shortcut: doc._id}); // output existing doc as json
-      }
-    });
-  } else { // user input failed url validation
-    res.json({error: 'Invalid URL'}); // display error message
-  }
+        res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
+      });
+    } else { // if doc exists in our database
+      if (err) next(err);
+      res.status(201).json({url: doc.url, shortcut: doc._id}); // output existing doc as json
+    }
+  });
 });
 
 app.use((req, res, next) => { // catch 404 and forward to error handler
