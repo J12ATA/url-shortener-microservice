@@ -42,7 +42,7 @@ app.post('/api/shorturl/new', (req, res, next) => {
   const randomId = crypto.randomBytes(3).toString('hex'); // random string
   const shortUrl = new Url({ url: userProvidedUrl, _id: randomId });
   if (userProvidedUrl.match(urlValidator)) { // user input vs validator
-    Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
+    Url.findOne({ url: userProvidedUrl.toLowerCase() }, (err, doc) => { // does url exist
       if (!doc) { // if no matching doc exists then
         shortUrl.save((err, doc) => { // create new doc
           if (err) next(err);
