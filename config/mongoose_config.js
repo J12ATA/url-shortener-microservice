@@ -1,5 +1,3 @@
-'use strict'
-
 const mongooseConfig = { 
   useNewUrlParser: true,
   useFindAndModify: false,
