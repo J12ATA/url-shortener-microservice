@@ -6,10 +6,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const mongooseConfig = require('./config/mongoose_config');
 const urlValidator = require('./regex/urlValidator');
-const Url = require('./models/Url').Url
-const crypto = require('crypto');
+const { Url } = require('./models/Url');
 const cors = require('cors');
-const app = express(); 
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -39,15 +38,14 @@ app.get('/api/shorturl/:_id', (req, res, next) => {
 
 app.post('/api/shorturl/new', (req, res, next) => {
   const userProvidedUrl = req.body.url.toLowerCase();
-  const randomId = crypto.randomBytes(3).toString('hex'); // random string
-  const shortUrl = new Url({ url: userProvidedUrl, _id: randomId });
+  const shortUrl = new Url({ url: userProvidedUrl });
   if (!userProvidedUrl.match(urlValidator)) return res.json({error: 'Invalid URL'});
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
     if (err) next(err);
-    if (doc) return res.status(201).json({url: doc.url, shortcut: doc._id}); // output doc
+    if (doc) return res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output doc
     shortUrl.save((err, doc) => { // create new doc
       if (err) next(err);
-      res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
+      res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output new doc as json
     });
   });
 });
