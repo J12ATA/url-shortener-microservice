@@ -39,10 +39,10 @@ app.get('/api/shorturl/:_id', (req, res, next) => {
 app.post('/api/shorturl/new', (req, res, next) => {
   const userProvidedUrl = req.body.url.toLowerCase();
   const shortUrl = new Url({ url: userProvidedUrl });
-  if (!userProvidedUrl.match(urlValidator)) return res.json({error: 'Invalid URL'});
+  if (!userProvidedUrl.match(urlValidator)) res.json({error: 'Invalid URL'});
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
     if (err) next(err);
-    if (doc) return res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output doc
+    if (doc) res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output doc
     shortUrl.save((err, doc) => { // create new doc
       if (err) next(err);
       res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output new doc as json
