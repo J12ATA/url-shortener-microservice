@@ -42,10 +42,10 @@ app.post('/api/shorturl/new', (req, res, next) => {
   if (!userProvidedUrl.match(urlValidator)) res.json({error: 'Invalid URL'});
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
     if (err) next(err);
-    if (doc) res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output doc
+    if (doc) res.status(201).json({url: doc.url, shortcut: doc._id}); // output doc
     shortUrl.save((err, doc) => { // create new doc
       if (err) next(err);
-      res.status(201).json({url: doc.url, shortcut: doc._id.toString().slice(0, 9)}); // output new doc as json
+      res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
     });
   });
 });
