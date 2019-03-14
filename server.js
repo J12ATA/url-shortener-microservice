@@ -28,9 +28,9 @@ app.get('/', (req, res) => res.render('index'));
 
 app.get('/api/hello', (req, res) => res.json({ greeting: 'hello API' }));
 
-app.get('/api/shorturl/:_id', (req, res, next) => {
-  const id = req.params._id;
-  Url.findById(id, (err, doc) => {
+app.get('/api/shorturl/:shortcut', (req, res, next) => {
+  const shortcut = req.params.shortcut;
+  Url.findOne({ shortcut: shortcut }, (err, doc) => {
     if (err) next(err);
     res.redirect(doc.url);
   });
@@ -38,14 +38,15 @@ app.get('/api/shorturl/:_id', (req, res, next) => {
 
 app.post('/api/shorturl/new', (req, res, next) => {
   const userProvidedUrl = req.body.url.toLowerCase();
-  const shortUrl = new Url({ url: userProvidedUrl });
-  if (!userProvidedUrl.match(urlValidator)) res.json({error: 'Invalid URL'});
-  Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
+  const shortcut = new mongoose.Types.ObjectId().toString().slice(0, 9);
+  const shortUrl = new Url({ url: userProvidedUrl, shortcut: shortcut });
+  if (!userProvidedUrl.match(urlValidator)) res.json({ error: 'Invalid URL' });
+  Url.findOne({ url: userProvidedUrl }, (err, doc) => { 
     if (err) next(err);
-    if (doc) res.status(201).json({url: doc.url, shortcut: doc._id}); // output doc
-    shortUrl.save((err, doc) => { // create new doc
+    if (doc) res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
+    shortUrl.save((err, doc) => { 
       if (err) next(err);
-      res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
+      res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
     });
   });
 });
