@@ -33,7 +33,7 @@ app.get('/api/shorturl/:shortcut', (req, res, next) => {
   const shortcut = req.params.shortcut;
   Url.findOne({ shortcut: shortcut }, (err, doc) => {
     if (err) next(err);
-    if (!doc) res.json({ error: 'Invalid shortcut' });
+    if (!doc) res.json({ error: 'Unknown shortcut' });
     res.redirect(doc.url);
   });
 });
