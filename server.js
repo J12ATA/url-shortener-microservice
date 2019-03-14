@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const mongooseConfig = require('./config/mongoose_config');
 const urlValidator = require('./regex/urlValidator');
 const { Url } = require('./models/Url');
+const crypto = require('crypto');
 const cors = require('cors');
 const app = express();
 
@@ -32,13 +33,14 @@ app.get('/api/shorturl/:shortcut', (req, res, next) => {
   const shortcut = req.params.shortcut;
   Url.findOne({ shortcut: shortcut }, (err, doc) => {
     if (err) next(err);
+    if (!doc) res.json({ error: 'Invalid shortcut' });
     res.redirect(doc.url);
   });
 });
 
 app.post('/api/shorturl/new', (req, res, next) => {
   const userProvidedUrl = req.body.url.toLowerCase();
-  const shortcut = new mongoose.Types.ObjectId().toString().slice(0, 9);
+  const shortcut = crypto.randomBytes(7).toString('base64').replace(/\W/g, '0').slice(-9);
   const shortUrl = new Url({ url: userProvidedUrl, shortcut: shortcut });
   if (!userProvidedUrl.match(urlValidator)) res.json({ error: 'Invalid URL' });
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { 
