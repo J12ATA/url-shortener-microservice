@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const mongooseConfig = require('./config/mongoose_config');
 const urlValidator = require('./regex/urlValidator');
-const Url = require('./models/Url').Url
+const { Url } = require('./models/Url');
 const crypto = require('crypto');
 const cors = require('cors');
-const app = express(); 
+const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
@@ -29,25 +29,26 @@ app.get('/', (req, res) => res.render('index'));
 
 app.get('/api/hello', (req, res) => res.json({ greeting: 'hello API' }));
 
-app.get('/api/shorturl/:_id', (req, res, next) => {
-  const id = req.params._id;
-  Url.findById(id, (err, doc) => {
+app.get('/api/shorturl/:shortcut', (req, res, next) => {
+  const shortcut = req.params.shortcut;
+  Url.findOne({ shortcut: shortcut }, (err, doc) => {
     if (err) next(err);
+    if (!doc) return res.json({ error: 'Unknown shortcut' });
     res.redirect(doc.url);
   });
 });
 
 app.post('/api/shorturl/new', (req, res, next) => {
   const userProvidedUrl = req.body.url.toLowerCase();
-  const randomId = crypto.randomBytes(3).toString('hex'); // random string
-  const shortUrl = new Url({ url: userProvidedUrl, _id: randomId });
-  if (!userProvidedUrl.match(urlValidator)) return res.json({error: 'Invalid URL'});
-  Url.findOne({ url: userProvidedUrl }, (err, doc) => { // does url exist
+  const shortcut = crypto.randomBytes(7).toString('base64').replace(/\W/g, '0').slice(-9);
+  const shortUrl = new Url({ url: userProvidedUrl, shortcut: shortcut });
+  if (!userProvidedUrl.match(urlValidator)) res.json({ error: 'Invalid URL' });
+  Url.findOne({ url: userProvidedUrl }, (err, doc) => { 
     if (err) next(err);
-    if (doc) return res.status(201).json({url: doc.url, shortcut: doc._id}); // output doc
-    shortUrl.save((err, doc) => { // create new doc
+    if (doc) return res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
+    shortUrl.save((err, doc) => { 
       if (err) next(err);
-      res.status(201).json({url: doc.url, shortcut: doc._id}); // output new doc as json
+      res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
     });
   });
 });

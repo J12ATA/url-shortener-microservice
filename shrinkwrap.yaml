@@ -3,7 +3,7 @@ dependencies:
   cors: 2.8.5
   express: 5.0.0-alpha.7
   mongodb: 3.1.13
-  mongoose: 5.4.17
+  mongoose: 5.4.19
   pug: 2.0.3
 packages:
   /@types/babel-types/7.0.6:
@@ -117,6 +117,12 @@ packages:
       node: '>=0.6.19'
     resolution:
       integrity: sha512-9Aeai9TacfNtWXOYarkFJRW2CWo+dRon+fuLZYJmvLV3+MiUp0bEI6IAZfXEIg7/Pl/7IWlLaDnhzTsD81etQA==
+  /bson/1.1.1:
+    dev: false
+    engines:
+      node: '>=0.6.19'
+    resolution:
+      integrity: sha512-jCGVYLoYMHDkOsbwJZBCqwMHyH4c+wzgI9hG7Z6SZJRXWr+x58pdIbm2i9a/jFGCkRJqRUr8eoI7lDWa0hTkxg==
   /bytes/3.0.0:
     dev: false
     engines:
@@ -494,10 +500,10 @@ packages:
       mongoose: '*'
     resolution:
       integrity: sha512-Yo/7qQU4/EyIS8YDFSeenIvXxZN+ld7YdV9LqFVQJzTLye8unujAWPZ4NWKfFA+RNjh+wvTWKY9Z3E5XM6ZZiQ==
-  /mongoose/5.4.17:
+  /mongoose/5.4.19:
     dependencies:
       async: 2.6.1
-      bson: 1.1.0
+      bson: 1.1.1
       kareem: 2.3.0
       mongodb: 3.1.13
       mongodb-core: 3.1.11
@@ -512,7 +518,7 @@ packages:
     engines:
       node: '>=4.0.0'
     resolution:
-      integrity: sha512-9aAg8M0YUmGHQRDYvsKJ02wx/Qaof1Jn2iDH21ZtWGAZpQt9uVLNEOdcBuzi+lPJwGbLYh2dphdKX0sZ+dXAJQ==
+      integrity: sha512-paRU3nbCrPIUVw1GAlxo11uIIqrYORctUx1kcLj7i2NhkxPQuy5OK2/FYj8+tglsaixycmONSyop2HQp1IUQSA==
   /mpath/0.5.1:
     dev: false
     engines:
@@ -953,5 +959,5 @@ specifiers:
   cors: ^2.8.5
   express: ^5.0.0-alpha.2
   mongodb: ^3.1.11
-  mongoose: ^5.4.17
+  mongoose: ^5.4.19
   pug: ^2.0.3
