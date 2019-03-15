@@ -33,7 +33,7 @@ app.get('/api/shorturl/:shortcut', (req, res, next) => {
   const shortcut = req.params.shortcut;
   Url.findOne({ shortcut: shortcut }, (err, doc) => {
     if (err) next(err);
-    if (!doc) res.json({ error: 'Unknown shortcut' });
+    if (!doc) return res.json({ error: 'Unknown shortcut' });
     res.redirect(doc.url);
   });
 });
@@ -45,7 +45,7 @@ app.post('/api/shorturl/new', (req, res, next) => {
   if (!userProvidedUrl.match(urlValidator)) res.json({ error: 'Invalid URL' });
   Url.findOne({ url: userProvidedUrl }, (err, doc) => { 
     if (err) next(err);
-    if (doc) res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
+    if (doc) return res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
     shortUrl.save((err, doc) => { 
       if (err) next(err);
       res.status(201).json({url: doc.url, shortcut: doc.shortcut}); 
