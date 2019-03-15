@@ -27,8 +27,6 @@ db.once('open', () => console.log('db connection successful'));
 
 app.get('/', (req, res) => res.render('index'));
 
-app.get('/api/hello', (req, res) => res.json({ greeting: 'hello API' }));
-
 app.get('/api/shorturl/:shortcut', (req, res, next) => {
   const shortcut = req.params.shortcut;
   Url.findOne({ shortcut: shortcut }, (err, doc) => {
