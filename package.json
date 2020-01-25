@@ -8,11 +8,11 @@
   },
   "dependencies": {
     "express": "^5.0.0-alpha.2",
-    "mongodb": "^3.2.3",
-    "mongoose": "^5.5.3",
+    "mongodb": "^3.5.1",
+    "mongoose": "^5.8.9",
     "cors": "^2.8.5",
-    "body-parser": "^1.18.3",
-    "pug": "^2.0.3"
+    "body-parser": "^1.19.0",
+    "pug": "^2.0.4"
   },
   "engines": {
     "node": "10.15.0"
